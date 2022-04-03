@@ -2,6 +2,8 @@
 
 **Dotted Trail Renderer** allows to create a path of animated circles defined by a given number of positions. This can be useful to show projectle trajectories in a Puzzle Bubble style.
 
+https://user-images.githubusercontent.com/5213678/161436517-f7cece34-0c4f-47e7-9016-4c665efbf964.mp4
+
 ## Requirements
 
 - Unity 2020.3.16f1+
