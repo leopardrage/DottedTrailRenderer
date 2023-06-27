@@ -35,13 +35,21 @@ Shader "Unlit/DottedTrailSegment"
     float computeAlpha(float2 uv, float aspectRatio, float time, float speed, float betweenDotDistance)
     {
         float2 circleUV = uv;
+        if (speed < 0)
+        {
+            // In case of negative speed, just reflect UV.x.
+            // The ShaderLab compiler will be smart enough to
+            // recognize that this is a static branching, since speed is a property.
+            // So the check is performance-free.
+            circleUV.x = 1.0 - circleUV.x;
+        }
         // This is needed to keep the circle aspect ratio
         circleUV.x *= aspectRatio;
-        // Displace UV.x by time * speep to animate.
+        // Displace UV.x by time * speed to animate.
         // The Modulo operator repeats the UV.x to create multiple dots every desired distance.
-        // Saturate to keep the space between the dots empty.
-        circleUV.x = saturate((circleUV.x + time * speed) % betweenDotDistance);
-
+        // Speed is taken as absolute value because the negative case has
+        // already handled in the previous check.
+        circleUV.x = ((circleUV.x + time * abs(speed)) % betweenDotDistance);
         return circle(circleUV, 0.5);
     }
 
